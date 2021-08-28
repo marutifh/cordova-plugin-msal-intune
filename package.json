@@ -9,6 +9,10 @@
       "android"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marutifh/cordova-plugin-msal-intune.git"
+  },
   "keywords": [
     "ecosystem:cordova",
     "cordova-ios",

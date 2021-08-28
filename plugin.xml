@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-msal-intune" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Cordova plugin MSAL Intune</name>
+    <js-module name="MSALIntune" src="www/MSALIntune.js">
+        <clobbers target="cordova.plugins.MSALIntune" />
+    </js-module>
+    <preference name="PATH_KEY_HASH" default="not-provided-by-user" />
+    <preference name="MSAL_TENANT_ID" default="not-provided-by-user" />
+    <preference name="MSAL_CLIENT_ID" default="not-provided-by-user" />
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="MSALIntune">
+                <param name="ios-package" value="MSALIntune" />
+                <param name="onload" value="true" />
+                <preference name="msalTenantId" value="$MSAL_TENANT_ID" />
+                <preference name="msalClientId" value="$MSAL_CLIENT_ID" />
+            </feature>
+            <feature name="">
+                <param name="ios-package" value="" />
+            </feature>
+            <feature name="MSALPublicClientApplication">
+                <param name="ios-package" value="MSALPublicClientApplication" />
+            </feature>
+            <feature name="MSALPublicClientApplicationConfig">
+                <param name="ios-package" value="MSALPublicClientApplicationConfig" />
+            </feature>
+            <feature name="MSALAccount">
+                <param name="ios-package" value="MSALAccount" />
+            </feature>
+            <feature name="MSALSilentTokenParameters">
+                <param name="ios-package" value="MSALSilentTokenParameters" />
+            </feature>
+            <feature name="MSALResult">
+                <param name="ios-package" value="MSALResult" />
+            </feature>
+            <feature name="MSALWebviewParameters">
+                <param name="ios-package" value="MSALWebviewParameters" />
+            </feature>
+            <feature name="MSALInteractiveTokenParameters">
+                <param name="ios-package" value="MSALInteractiveTokenParameters" />
+            </feature>
+            <feature name="MSALError">
+                <param name="ios-package" value="MSALError" />
+            </feature>
+        </config-file>
+        
+        <podspec>
+            <config>
+                <source url="https://cdn.cocoapods.org/"/>
+            </config>
+            <pods use_frameworks="true">
+                <pod name="MSAL" />
+            </pods>
+        </podspec>
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>msauth.$PACKAGE_NAME</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+        <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
+            <array>
+                <string>msauthv2</string>
+                <string>msauthv3</string>
+            </array>
+        </config-file>
+        <config-file parent="keychain-access-groups" target="*/Entitlements-Debug.plist">
+            <array>
+                <string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
+            </array>
+        </config-file>
+        <config-file parent="keychain-access-groups" target="*/Entitlements-Release.plist">
+            <array>
+                <string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
+            </array>
+        </config-file>
+        <header-file src="src/ios/AppDelegate+MsalCallback.h" />
+        <source-file src="src/ios/AppDelegate+MsalCallback.m" />
+        <source-file src="src/ios/MSALIntune.swift" />
+    </platform>
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET "/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE "/>
+            <uses-permission android:name="android.permission.READ_CONTACTS" />
+        </config-file>
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="MSALIntune">
+                <param name="android-package" value="com.marutifh.msalIntune.MSALIntune" />
+                <preference name="msalTenantId" value="$TENANT_ID" />
+                <preference name="msalClientId" value="$CLIENT_ID" />
+                <preference name="pathKeyHash" value="$PATH_KEY_HASH" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="application">
+            <activity
+                android:name="com.microsoft.identity.client.BrowserTabActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:host="$PACKAGE_NAME"
+                        android:path="/$PATH_KEY_HASH"
+                        android:scheme="msauth" />
+                </intent-filter>
+            </activity>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/MSALIntune.java" target-dir="src/com/marutifh/msalIntune/MSALIntune" />
+        <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
+    </platform>
+</plugin>

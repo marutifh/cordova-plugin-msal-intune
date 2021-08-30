@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-msal-intune",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MSAL cordova plugin for MS Intune",
   "cordova": {
     "id": "cordova-plugin-msal-intune",

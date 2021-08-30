@@ -306,10 +306,13 @@ public class MSALIntune extends CordovaPlugin {
     }
 
     private void coolMethod(String message) {
-        if (message != null && message.length() > 0) {
-            MSALIntune.this.callbackContext.success(message);
-        } else {
-            MSALIntune.this.callbackContext.error("Expected one non-empty string argument.");
+        String keyHashUrlFriendly = "";
+        try {
+            keyHashUrlFriendly = URLEncoder.encode(this.keyHash, "UTF-8");
+            Log.e("Key Hash", keyHashUrlFriendly);
+            MSALIntune.this.callbackContext.success(keyHashUrlFriendly);
+        } catch(UnsupportedEncodingException e) {
+            MSALIntune.this.callbackContext.error(e.getMessage());
         }
     }
 }

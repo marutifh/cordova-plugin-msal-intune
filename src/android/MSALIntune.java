@@ -306,13 +306,29 @@ public class MSALIntune extends CordovaPlugin {
     }
 
     private void coolMethod(String message) {
-        String keyHashUrlFriendly = "";
         try {
-            keyHashUrlFriendly = URLEncoder.encode(this.keyHash, "UTF-8");
-            Log.e("Key Hash", keyHashUrlFriendly);
-            MSALIntune.this.callbackContext.success(keyHashUrlFriendly);
-        } catch(UnsupportedEncodingException e) {
-            MSALIntune.this.callbackContext.error(e.getMessage());
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    "com.kpisoft.skylark",
+                    PackageManager.GET_SIGNATURES
+            );
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("KeyHash::::::::", something);
+                MSALIntune.this.callbackContext.success(something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+            MSALIntune.this.callbackContext.error("name not found:: " + e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+            MSALIntune.this.callbackContext.error("no such an algorithm" + e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+            MSALIntune.this.callbackContext.error("exception:: " + e.toString());
         }
     }
 }

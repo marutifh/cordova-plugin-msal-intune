@@ -30,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.kpisoft.skylark.R;
 import com.microsoft.identity.client.AuthenticationCallback; // Imports MSAL auth methods
 import com.microsoft.identity.client.*;
 import com.microsoft.identity.client.exception.*;
@@ -141,7 +140,7 @@ public class MSALIntune extends CordovaPlugin {
     }
 
     private void initMSALIntune(JSONObject options) {
-        this.getKeyHashFriendly();
+        this.getHash();
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
@@ -149,7 +148,6 @@ public class MSALIntune extends CordovaPlugin {
                     File config = createConfigFile(options.toString().replaceAll("\\\\", ""));
                     mSingleAccountApp = PublicClientApplication.createSingleAccountPublicClientApplication(context,
                             config);
-//                    R.raw.auth
                    config.delete();
                     MSALIntune.this.callbackContext.success();
                 } catch (InterruptedException e) {

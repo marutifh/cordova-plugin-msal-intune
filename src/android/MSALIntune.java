@@ -109,7 +109,7 @@ public class MSALIntune extends CordovaPlugin {
     private void getHash(){
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
-                    "com.kpisoft.skylark",
+                    context.getPackageName(),
                     PackageManager.GET_SIGNATURES
             );
             for (Signature signature : info.signatures) {
@@ -306,7 +306,7 @@ public class MSALIntune extends CordovaPlugin {
     private void coolMethod(String message) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
-                    "com.kpisoft.skylark",
+                    context.getPackageName(),
                     PackageManager.GET_SIGNATURES
             );
             for (Signature signature : info.signatures) {
